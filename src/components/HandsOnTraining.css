@@ -1,0 +1,157 @@
+/* General styling for the training container */
+.training-container {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff;
+}
+
+.training-container h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.training-container .subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Flexbox for aligning columns */
+.training-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* Styling for individual columns */
+.training-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 320px;
+}
+
+/* Image container for cards */
+.training-image {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.training-image img {
+  max-width: 280px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for each card */
+.training-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #f9f9f9;
+  padding: 16px 20px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  height: 190px; /* Fixed height */
+  gap: 12px; /* Vertical gap between icon and title */
+  box-sizing: border-box;
+  position: relative;
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Keyframe animations for the cards */
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes iconFadeAndCollapse {
+  0%, 100% {
+    opacity: 1;
+    height: 28px; /* Keep icon height */
+    margin-bottom: 12px;
+  }
+  50% {
+    opacity: 0;
+    height: 0; /* Collapse icon height */
+    margin-bottom: 0;
+  }
+}
+
+/* Applying animations and delays for the cards in the first column */
+.training-column:first-child .training-card:nth-child(1),
+.training-column:last-child .training-card:nth-child(3) {
+  animation-name: floatUpDown;
+  animation-delay: 2s;
+}
+
+.training-column:first-child .training-card:nth-child(2),
+.training-column:last-child .training-card:nth-child(1) {
+  animation-name: floatUpDown;
+  animation-delay: 2s;
+}
+
+.training-column:first-child .training-card:nth-child(3),
+.training-column:last-child .training-card:nth-child(2) {
+  animation-name: floatUpDown;
+  animation-delay: 2s;
+}
+
+/* Styling for the icon inside each card */
+.training-card .icon {
+  font-size: 28px;
+  color: #2b6cb0;
+  margin-top: 4px;
+  flex-shrink: 0;
+  width: auto;
+
+  animation-name: iconFadeAndCollapse;
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+
+  transition: opacity 0.3s ease, height 0.3s ease, margin-bottom 0.3s ease;
+  overflow: hidden;
+}
+
+/* Styling for the text inside the cards */
+.training-card .card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.training-card .card-text h4 {
+  margin-left: 4px; /* small left margin for breathing room */
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.training-card .card-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
