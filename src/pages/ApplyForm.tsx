@@ -72,7 +72,7 @@ e.preventDefault();
 alert("Application submitted successfully!");
 };
 
-return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gray-800"> <div className="max-w-3xl mx-auto text-center mb-10 pt-6 pb-4 border-b border-gray-200"> <h1 className="text-3xl font-bold text-red-600 tracking-wide mb-3">
+return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gray-800"> <div className="max-w-3xl mx-auto text-center mb-10 pt-6 pb-4 border-b border-gray-200"> <h1 className="text-3xl font-bold text-blue-600 tracking-wide mb-3">
 {courseTitle} </h1> <div className="flex justify-center gap-6 mt-2 text-gray-600 text-2xl"> <a
          href="https://www.facebook.com/vdartacademy"
          target="_blank"
@@ -95,7 +95,25 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
          className="hover:text-red-600"
        > <FaYoutube /> </a> </div> </div>
 
-```
+{/* Breadcrumb Navigation */}
+<div className="max-w-3xl mx-auto mb-8 text-sm text-gray-600 flex items-center gap-2">
+  <button
+    onClick={() => window.history.back()}
+    className="text-blue-500 hover:underline"
+  >
+    Job listing
+  </button>
+  <span className="text-gray-400">›</span>
+  <button
+    onClick={() => window.history.back()}
+    className="text-blue-500 hover:underline"
+  >
+    Job details
+  </button>
+  <span className="text-gray-400">›</span>
+  <span className="text-gray-800 font-medium">Job application</span>
+</div>
+
   <div className="max-w-3xl mx-auto">
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
       <h2 className="text-base font-semibold text-gray-800 mb-2 sm:mb-0">
@@ -104,7 +122,7 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
       <button
         type="button"
         onClick={handleClear}
-        className="text-sm text-red-500 hover:underline leading-none self-start sm:self-auto"
+        className="text-sm text-blue-500 hover:underline leading-none self-start sm:self-auto"
       >
         Clear
       </button>
@@ -224,6 +242,7 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
           className="w-full border border-gray-300 rounded-sm px-2 h-[38px] bg-gray-50 text-sm"
         >
           <option value="">Select Experience</option>
+          <option value="Fresher">Fresher</option>
           <option value="0-1">0-1</option>
           <option value="1-3">1-3</option>
           <option value="3-5">3-5</option>
@@ -255,10 +274,11 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
             className="w-full border border-gray-300 rounded-sm px-2 h-[38px] bg-gray-50 text-sm"
           >
             <option value="">Select Current CTC</option>
-            <option value="<3LPA">Below 3 LPA</option>
-            <option value="3-6LPA">3-6 LPA</option>
-            <option value="6-10LPA">6-10 LPA</option>
-            <option value="10+LPA">10+ LPA</option>
+            <option value="None">None</option>
+            <option value="Not applicable">Not applicable</option>
+            <option value="1-3">1-3</option>
+            <option value="3-5">3-5</option>
+            <option value="5+">5+</option>
           </select>
         </div>
         <div className="flex-1">
@@ -272,9 +292,10 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
             className="w-full border border-gray-300 rounded-sm px-2 h-[38px] bg-gray-50 text-sm"
           >
             <option value="">Select Expected CTC</option>
-            <option value="<3LPA">Below 3 LPA</option>
-            <option value="3-6LPA">3-6 LPA</option>
-            <option value="6-10LPA">6-10 LPA</option>
+            <option value="Open">Open</option>
+            <option value="3-5LPA">3-5 LPA</option>
+            <option value="5-7LPA">5-7 LPA</option>
+            <option value="7-10LPA">7-10 LPA</option>
             <option value="10+LPA">10+ LPA</option>
           </select>
         </div>
@@ -292,9 +313,10 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
         >
           <option value="">Select Notice Period</option>
           <option value="Immediate">Immediate</option>
-          <option value="15 Days">15 Days</option>
-          <option value="30 Days">30 Days</option>
-          <option value="60+ Days">60+ Days</option>
+          <option value="Notapplicable">Not applicable</option>
+          <option value="1 month">1 Month</option>
+          <option value="2 month">2 Month</option>
+          <option value="3 month">3 Month</option>
         </select>
       </div>
 
@@ -351,26 +373,22 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
             Preferred Location<span className="text-red-500">*</span>
           </label>
           <select
-            name="preferredLocation"
-            value={formData.preferredLocation}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-sm px-2 h-[38px] bg-gray-50 text-sm"
-          >
-            <option value="">Select Preferred Location</option>
-            <option value="Chennai">Chennai</option>
-            <option value="Bangalore">Bangalore</option>
-            <option value="Hyderabad">Hyderabad</option>
-            <option value="Coimbatore">Coimbatore</option>
-            <option value="Remote">Remote</option>
-          </select>
+              name="preferredLocation"
+              value="Trichy" // fixed value
+              disabled // make it non-editable
+              className="w-full border border-gray-300 rounded-sm px-2 h-[38px] bg-gray-50 text-sm text-gray-700 cursor-not-allowed"
+            >
+              <option value="Trichy">Trichy</option>
+            </select>
+
+          </div>
         </div>
-      </div>
 
       <div className="pt-4 border-t border-gray-200">
-        <label className="text-sm font-medium text-red-500 mb-2 block">
-          Upload Your Resume <span className="text-red-500">*</span>
+        <label className="text-sm font-medium text-blue-500 mb-2 block">
+          Upload Your Resume <span className="text-blue-500">*</span>
         </label>
-        <div className="border border-dashed border-gray-400 rounded-sm w-60 h-16 flex items-center justify-center text-sm text-gray-500">
+        <div className="border border-dashed border-gray-400 rounded-sm w-full h-16 flex items-center justify-center text-sm text-gray-500">
           <input
             type="file"
             onChange={handleResumeChange}
@@ -396,7 +414,7 @@ return ( <section className="min-h-screen bg-white py-10 px-8 font-sans text-gra
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition"
+          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-red-600 transition"
         >
           Submit Application
         </button>

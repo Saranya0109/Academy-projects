@@ -10,9 +10,9 @@ import NotFound from "./pages/NotFound";
 import HandsOnTraining from "./components/HandsOnTraining";
 import Careers from "./pages/careers";
 import CourseDetails from "./pages/coursedetails";
-import ApplyForm from "./pages/ApplyForm"; // ✅ this page has your Zoho-style form
-
+import ApplyForm from "./pages/ApplyForm";
 import { Navbar } from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop"; // ✅ Add this
 
 const queryClient = new QueryClient();
 
@@ -23,6 +23,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Navbar />
+        <ScrollToTop /> {/* ✅ ensures page scrolls to top on route change */}
 
         <Routes>
           <Route path="/" element={<Index />} />

@@ -43,8 +43,7 @@ const courseData: Record<
       "Collaborate with mentors to present insights effectively.",
     ],
     skills: ["Python, Pandas, NumPy", "Power BI / Tableau", "SQL", "Data Visualization"],
-    duration: "3 Months (Hybrid)",
-    location: "Chennai / Remote",
+    location: "Trichy",
   },
 
   "digital-marketing": {
@@ -58,8 +57,7 @@ const courseData: Record<
       "Assist in creating email and SEO strategies.",
     ],
     skills: ["SEO & SEM", "Google Analytics", "Content Marketing", "Social Media Advertising"],
-    duration: "2 Months (Remote)",
-    location: "Remote",
+    location: "Trichy",
   },
 
   "ui-ux-design": {
@@ -72,9 +70,8 @@ const courseData: Record<
       "Collaborate with developers for design implementation.",
       "Create visually consistent UI components.",
     ],
-    skills: ["Figma", "Adobe XD", "Prototyping", "User Research"],
-    duration: "3 Months (Hybrid)",
-    location: "Trichy / Remote",
+    skills: ["Figma/Canva", "Adobe XD", "Prototyping", "User Research"],
+    location: "Trichy",
   },
 
   "ai-&-machine-learning": {
@@ -88,8 +85,7 @@ const courseData: Record<
       "Document results and performance metrics.",
     ],
     skills: ["Python", "TensorFlow / Scikit-learn", "Data Preprocessing", "Model Evaluation"],
-    duration: "4 Months (Remote)",
-    location: "Chennai / Remote",
+    location: "Trichy",
   },
 
   "cloud-computing": {
@@ -103,7 +99,7 @@ const courseData: Record<
       "Assist in automation and CI/CD processes.",
     ],
     skills: ["AWS / Azure", "Docker, Kubernetes", "CI/CD Tools", "Linux, Networking Basics"],
-    duration: "3 Months (On-site)",
+
     location: "Trichy / Chennai",
   },
 };
@@ -128,13 +124,13 @@ const CourseDetails: React.FC = () => {
   if (!course) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center p-6">
-        <h2 className="text-3xl font-bold mb-4 text-red-600">Internship Not Found</h2>
+        <h2 className="text-3xl font-bold mb-4 text-blue-600">Internship Not Found</h2>
         <p className="text-gray-600 mb-6">
           The internship you are looking for does not exist or has been closed.
         </p>
         <Link
           to="/careers"
-          className="bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors"
+          className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
         >
           Back to Careers
         </Link>
@@ -146,7 +142,7 @@ const CourseDetails: React.FC = () => {
     <section className="min-h-screen bg-white py-24 px-6 text-gray-800">
       <div className="max-w-5xl mx-auto">
         {/* Title Section */}
-        <h1 className="text-4xl font-bold text-red-600 mb-2">{course.title}</h1>
+        <h1 className="text-4xl font-bold text-blue-600 mb-2">{course.title}</h1>
         <p className="text-gray-500 mb-6">Internship | {course.duration}</p>
 
         {/* About */}
@@ -183,7 +179,7 @@ const CourseDetails: React.FC = () => {
           </p>
           <Link
             to="/apply"
-            className="inline-block bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors"
+            className="inline-block bg-blu-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
           >
             I’m Interested
           </Link>

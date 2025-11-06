@@ -38,13 +38,6 @@ export function Testimonials() {
           avatar: "https://randomuser.me/api/portraits/women/46.jpg",
         },
       ]}
-      trustedCompanies={["Google", "Amazon", "Microsoft", "Infosys", "TCS", "Wipro"]}
-      trustedCompaniesTitle="Our students are working at top companies"
-      className="
-        [&>div]:pb-8 sm:[&>div]:pb-10 
-        [&>div]:overflow-hidden
-        max-sm:[&_p]:text-[12px]
-      "
-    />
+      />
   )
 }

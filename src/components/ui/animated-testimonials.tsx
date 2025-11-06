@@ -38,9 +38,11 @@ export function AnimatedTestimonials({
   className,
 }: AnimatedTestimonialsProps) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [cardHeight, setCardHeight] = useState(0)
 
-  // Refs for scroll animations
+  // Refs for scroll animations and height measurement
   const sectionRef = useRef(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
   const controls = useAnimation()
 
@@ -71,6 +73,33 @@ export function AnimatedTestimonials({
     }
   }, [isInView, controls])
 
+  // Calculate the maximum card height
+  useEffect(() => {
+    if (cardRefs.current.length === 0) return
+
+    // Reset heights to auto to get natural heights
+    cardRefs.current.forEach(ref => {
+      if (ref) {
+        ref.style.height = 'auto'
+      }
+    })
+
+    // Calculate the maximum height among all cards
+    const maxHeight = Math.max(
+      ...cardRefs.current.map(ref => ref ? ref.offsetHeight : 0)
+    )
+
+    // Set the card height to the maximum found
+    setCardHeight(maxHeight)
+
+    // Apply the consistent height to all cards
+    cardRefs.current.forEach(ref => {
+      if (ref) {
+        ref.style.height = `${maxHeight}px`
+      }
+    })
+  }, [testimonials])
+
   // Auto rotate testimonials
   useEffect(() => {
     if (autoRotateInterval <= 0 || testimonials.length <= 1) return
@@ -87,13 +116,13 @@ export function AnimatedTestimonials({
   }
 
   return (
-    <section ref={sectionRef} id="testimonials" className={`py-24 overflow-hidden bg-muted/30 ${className || ""}`}>
-      <div className="px-4 md:px-6">
+    <section ref={sectionRef} id="testimonials" className={`sm:py-24 bg-muted/30 ${className || "h-full"}`}>
+      <div className="px-4 md:px-6 h-full container mx-auto flex flex-col items-center">
         <motion.div
           initial="hidden"
           animate={controls}
           variants={containerVariants}
-          className="grid grid-cols-1 gap-16 w-full md:grid-cols-2 lg:gap-24"
+          className="grid gap-16 w-full md:grid-cols-2 lg:gap-24"
         >
           {/* Left side: Heading and navigation */}
           <motion.div variants={itemVariants} className="flex flex-col justify-center">
@@ -108,39 +137,33 @@ export function AnimatedTestimonials({
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{title}</h2>
 
               <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">{subtitle}</p>
-
-              <div className="flex items-center gap-3 pt-4">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveIndex(index)}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      activeIndex === index ? "w-10 bg-primary" : "w-2.5 bg-muted-foreground/30"
-                    }`}
-                    aria-label={`View testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
             </div>
           </motion.div>
 
           {/* Right side: Testimonial cards */}
-          <motion.div variants={itemVariants} className="relative h-full mr-10 min-h-[300px] md:min-h-[400px]">
+          <motion.div
+            variants={itemVariants}
+            className="relative mr-10 flex items-center justify-center pb-14"
+            style={{ minHeight: cardHeight > 0 ? cardHeight + 80 : 320 }}
+          >
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.id}
-                className="absolute inset-0"
-                initial={{ opacity: 0, x: 100 }}
+                className="absolute inset-0 flex items-center justify-center px-4"
+                initial={{ opacity: 0, x: 60 }}
                 animate={{
                   opacity: activeIndex === index ? 1 : 0,
-                  x: activeIndex === index ? 0 : 100,
-                  scale: activeIndex === index ? 1 : 0.9,
+                  x: activeIndex === index ? 0 : 60,
+                  scale: activeIndex === index ? 1 : 0.98,
                 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.45, ease: "easeInOut" }}
                 style={{ zIndex: activeIndex === index ? 10 : 0 }}
               >
-                <div className="bg-card border shadow-lg rounded-xl p-8 h-full flex flex-col">
-                  <div className="mb-6 flex gap-2">
+                <div 
+                  ref={el => cardRefs.current[index] = el}
+                  className="bg-card border shadow-lg rounded-xl p-8 w-full max-w-2xl flex flex-col"
+                >
+                  <div className="mb-4 flex gap-2">
                     {Array(testimonial.rating)
                       .fill(0)
                       .map((_, i) => (
@@ -148,7 +171,7 @@ export function AnimatedTestimonials({
                       ))}
                   </div>
 
-                  <div className="relative mb-6 flex-1">
+                  <div className="relative mb-4 flex-1 overflow-auto">
                     <Quote className="absolute -top-2 -left-2 h-8 w-8 text-primary/20 rotate-180" />
                     <p className="relative z-10 text-lg font-medium leading-relaxed">"{testimonial.content}"</p>
                   </div>
@@ -174,8 +197,24 @@ export function AnimatedTestimonials({
             {/* Decorative elements */}
             <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-xl bg-primary/5"></div>
             <div className="absolute -top-6 -right-6 h-24 w-24 rounded-xl bg-primary/5"></div>
+
+
+
           </motion.div>
         </motion.div>
+                    {/* Pagination — static/flow on mobile, absolute on md+ to avoid overlaying content */}
+            <div className="mt-8 flex justify-center gap-3  md:bottom-4 md:left-1/2 md:transform md:-translate-x-1/2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    activeIndex === index ? "w-10 bg-primary" : "w-2.5 bg-muted-foreground/30"
+                  }`}
+                  aria-label={`View testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
 
         {/* Logo cloud */}
         {trustedCompanies.length > 0 && (

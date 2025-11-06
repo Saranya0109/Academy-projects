@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Mail, MapPin, Phone } from "lucide-react"
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 
 export function Contact() {
@@ -16,25 +16,65 @@ export function Contact() {
     subject: "",
     message: ""
   })
+  const formRef = useRef<HTMLFormElement | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const sendEmail = (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        variant: "destructive",
       })
       return
     }
 
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you soon.",
+    if (!formRef.current) {
+      toast({
+        title: "Error",
+        description: "Form not available",
+        variant: "destructive",
+      })
+      return
+    }
+    // send via EmailJS REST API (no @emailjs/browser dependency required)
+    fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        service_id: "service_ouzs018",
+        template_id: "template_tf5scg9",
+        user_id: "VV70-VP44EmtKcUy2",
+        template_params: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        },
+      }),
     })
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok")
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you soon.",
+        })
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" })
+        formRef.current?.reset()
+      })
+            .catch((error) => {
+        console.error(error)
+        toast({
+          title: "Failed to send",
+          description: "Please try again later.",
+          variant: "destructive",
+        })
+      })
 
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" })
   }
 
   return (
@@ -67,13 +107,14 @@ export function Contact() {
           >
             <Card>
               <CardContent className="p-6">
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="text-sm font-medium mb-2 block">
                       Name *
                     </label>
                     <Input
                       id="name"
+                      name="name"
                       placeholder="Your name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -86,6 +127,7 @@ export function Contact() {
                     </label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       placeholder="your.email@example.com"
                       value={formData.email}
@@ -99,6 +141,7 @@ export function Contact() {
                     </label>
                     <Input
                       id="phone"
+                      name="phone"
                       type="tel"
                       placeholder="+91 9944548333"
                       value={formData.phone}
@@ -111,6 +154,7 @@ export function Contact() {
                     </label>
                     <Input
                       id="subject"
+                      name="subject"
                       placeholder="Subject of your inquiry"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -123,6 +167,7 @@ export function Contact() {
                     </label>
                     <Textarea
                       id="message"
+                      name="message"
                       placeholder="Tell us about your interest in our programs..."
                       rows={5}
                       value={formData.message}

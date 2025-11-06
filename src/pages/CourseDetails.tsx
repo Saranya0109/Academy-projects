@@ -14,7 +14,7 @@ const courseData: Record<
     about: string;
     responsibilities: string[];
     skills: string[];
-    duration: string;
+    duration?: string;
     location: string;
   }
 > = {
@@ -28,18 +28,12 @@ const courseData: Record<
       "Integrate front-end and back-end for seamless performance.",
       "Collaborate with senior developers on live client projects.",
     ],
-    skills: [
-      "HTML, CSS, JavaScript",
-      "React.js, Node.js",
-      "Git, REST APIs",
-      "Database Management",
-    ],
-    duration: "3 Months (On-site/Remote)",
-    location: "Trichy / Chennai / Remote",
+    skills: ["Python, Java", "React.js, Node.js, Django", "Git, REST APIs"],
+    location: "Trichy",
   },
 
   "data-analytics": {
-    title: "Data Analytics Internship",
+    title: "Data Analytics",
     about:
       "Work with real-world datasets, create visualizations, and build predictive models to extract meaningful insights. Learn to use tools like Python, Power BI, and SQL.",
     responsibilities: [
@@ -48,18 +42,12 @@ const courseData: Record<
       "Design dashboards in Power BI or Tableau.",
       "Collaborate with mentors to present insights effectively.",
     ],
-    skills: [
-      "Python, Pandas, NumPy",
-      "Power BI / Tableau",
-      "SQL",
-      "Data Visualization",
-    ],
-    duration: "3 Months (Hybrid)",
-    location: "Chennai / Remote",
+    skills: ["Power BI / Excel", "SQL", "Data Visualization"],
+    location: "Trichy",
   },
 
   "digital-marketing": {
-    title: "Digital Marketing Internship",
+    title: "Digital Marketing",
     about:
       "Develop creative marketing campaigns across digital platforms. Gain practical exposure to SEO, social media management, and analytics tracking.",
     responsibilities: [
@@ -74,12 +62,11 @@ const courseData: Record<
       "Content Marketing",
       "Social Media Advertising",
     ],
-    duration: "2 Months (Remote)",
-    location: "Remote",
+    location: "Trichy",
   },
 
   "ui-ux-design": {
-    title: "UI/UX Design Internship",
+    title: "UI/UX Design",
     about:
       "Learn the art of crafting intuitive user interfaces and seamless experiences. Work on real design projects using Figma and Adobe tools.",
     responsibilities: [
@@ -89,12 +76,11 @@ const courseData: Record<
       "Create visually consistent UI components.",
     ],
     skills: ["Figma", "Adobe XD", "Prototyping", "User Research"],
-    duration: "3 Months (Hybrid)",
-    location: "Trichy / Remote",
+    location: "Trichy",
   },
 
   "ai-&-machine-learning": {
-    title: "AI & Machine Learning Internship",
+    title: "AI & Machine Learning",
     about:
       "Explore AI model development and machine learning algorithm implementation. Work on predictive analytics and automation projects.",
     responsibilities: [
@@ -109,12 +95,11 @@ const courseData: Record<
       "Data Preprocessing",
       "Model Evaluation",
     ],
-    duration: "4 Months (Remote)",
-    location: "Chennai / Remote",
+    location: "Trichy",
   },
 
   "cloud-computing": {
-    title: "Cloud Computing Internship",
+    title: "Cloud Computing",
     about:
       "Learn how to deploy and manage scalable applications on cloud platforms. Gain exposure to AWS, Azure, and DevOps practices.",
     responsibilities: [
@@ -129,8 +114,7 @@ const courseData: Record<
       "CI/CD Tools",
       "Linux, Networking Basics",
     ],
-    duration: "3 Months (On-site)",
-    location: "Trichy / Chennai",
+    location: "Trichy",
   },
 };
 
@@ -145,11 +129,11 @@ const slugMap: Record<string, string> = {
 };
 
 const CourseDetails: React.FC = () => {
-  const { courseId } = useParams();
+  const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
 
   const mappedKey = slugMap[courseId || ""] || courseId || "";
-  const course = courseData[mappedKey] || courseData[courseId || ""];
+  const course = courseData[mappedKey as keyof typeof courseData];
 
   if (!course) {
     return (
@@ -162,7 +146,7 @@ const CourseDetails: React.FC = () => {
         </p>
         <Link
           to="/careers"
-          className="bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors"
+          className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
         >
           Back to Careers
         </Link>
@@ -179,16 +163,20 @@ const CourseDetails: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h3 className="text-gray-500 mb-1">
-            VDart Academy | {course.duration}
+          <h3 className="text-gray-500 mb-1 mt-8">
+            VDart Academy | On The Job Training
           </h3>
-          <h1 className="text-4xl font-bold text-red-700 mb-4">{course.title}</h1>
-          <p className="text-gray-700 mb-8 max-w-3xl mx-auto">{course.about}</p>
+          <h1 className="text-4xl font-bold text-blue-700 mb-4 mt-4">
+            {course.title}
+          </h1>
+          <p className="text-gray-700 mb-8 mt-4 max-w-3xl mx-auto">
+            {course.about}
+          </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <button
               onClick={handleApplyClick}
-              className="bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
             >
               I’m Interested
             </button>
@@ -237,6 +225,18 @@ const CourseDetails: React.FC = () => {
           </div>
         </div>
 
+        {/* Breadcrumb Navigation for Job Details */}
+        <div className="max-w-4xl mx-auto mb-8 text-sm text-gray-600 flex items-center gap-2">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-500 hover:underline"
+          >
+            Job listing
+          </button>
+          <span className="text-gray-400">›</span>
+          <span className="text-gray-800 font-medium">Job details</span>
+        </div>
+
         {/* Content */}
         <div className="grid md:grid-cols-3 gap-10">
           {/* Description */}
@@ -260,7 +260,7 @@ const CourseDetails: React.FC = () => {
             <div className="mt-8">
               <button
                 onClick={handleApplyClick}
-                className="bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors"
+                className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
               >
                 I’m Interested
               </button>
@@ -268,22 +268,21 @@ const CourseDetails: React.FC = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4 text-red-600">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 w-80 h-56 overflow-hidden">
+            <h3 className="text-lg font-semibold mb-4 text-blue-600">
               Internship Information
             </h3>
-            <p className="text-gray-700 mb-2">
-              <strong>Location:</strong> {course.location}
-            </p>
-            <p className="text-gray-700 mb-2">
-              <strong>Duration:</strong> {course.duration}
-            </p>
-            <p className="text-gray-700 mb-2">
-              <strong>Category:</strong> Technology
-            </p>
-            <p className="text-gray-700">
-              <strong>Type:</strong> Internship
-            </p>
+            <div>
+              <p className="text-gray-700 mb-2">
+                <strong>Location:</strong> {course.location}
+              </p>
+              <p className="text-gray-700 mb-2">
+                <strong>Category:</strong> Technology, Management, Arts & Science
+              </p>
+              <p className="text-gray-700">
+                <strong>Type:</strong> Internship
+              </p>
+            </div>
           </div>
         </div>
       </div>

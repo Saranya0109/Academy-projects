@@ -10,7 +10,7 @@ export function Footer() {
             <img 
               src="https://www.vdartacademy.com/vdartacademylogo1.png" 
               alt="VDart Academy" 
-              className="h-12 mb-4"
+              className="h-24 mb-4"
             />
             <p className="text-muted-foreground text-sm max-w-md">
               Empowering future tech leaders through industry-aligned courses, hands-on learning, and expert mentorship.

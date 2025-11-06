@@ -3,6 +3,7 @@ import { ArrowRight, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function CTA() {
+
   const handleSendMessage = () => {
     const email = "info@vdartacademy.com";
     const subject = encodeURIComponent("Inquiry from Website");
@@ -16,7 +17,7 @@ export function CTA() {
   };
 
   return (
-    <section className="py-12 md:py-16 px-4 mb-0">
+    <section className="sm:py-12 md:py-16 px-4 mb-0 mt-12 sm:mt-0">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -40,7 +41,6 @@ export function CTA() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {/* Enroll Now Button */}
               <Button
-                size="md"
                 variant="hero"
                 className="text-base font-semibold px-6 py-3 w-[200px] h-[50px] flex justify-center items-center"
                 onClick={() =>
@@ -52,7 +52,6 @@ export function CTA() {
 
               {/* Send Message Button */}
               <Button
-                size="md"
                 variant="outline"
                 className="text-base font-semibold px-6 py-3 w-[200px] h-[50px] flex justify-center items-center bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
                 onClick={handleSendMessage}

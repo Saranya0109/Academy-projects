@@ -57,7 +57,7 @@ const programs = [
 
 export function Programs() {
   return (
-    <section className="py-20 px-4">
+    <section className="pt-10 sm:py-20 px-4">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
